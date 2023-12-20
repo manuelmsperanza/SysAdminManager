@@ -40,12 +40,22 @@ Partial Class SysAdminManagerReadPanel
         Me.OriginLabel = New System.Windows.Forms.Label()
         Me.EffortTypeComboBox = New System.Windows.Forms.ComboBox()
         Me.OriginComboBox = New System.Windows.Forms.ComboBox()
+        Me.NoDateTaskButton = New System.Windows.Forms.Button()
+        Me.NewTaskButton = New System.Windows.Forms.Button()
+        Me.BacklogTaskButton = New System.Windows.Forms.Button()
+        Me.ActiveTaskButton = New System.Windows.Forms.Button()
+        Me.VerifyingTaskButton = New System.Windows.Forms.Button()
+        Me.CompletedTaskButton = New System.Windows.Forms.Button()
+        Me.TodayTaskButton = New System.Windows.Forms.Button()
+        Me.ThisWeekButton = New System.Windows.Forms.Button()
+        Me.NextWeekTaskButton = New System.Windows.Forms.Button()
+        Me.ResetTaskButton = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'EffortTypeLabel
         '
         Me.EffortTypeLabel.AutoSize = True
-        Me.EffortTypeLabel.Location = New System.Drawing.Point(279, 19)
+        Me.EffortTypeLabel.Location = New System.Drawing.Point(6, 57)
         Me.EffortTypeLabel.Name = "EffortTypeLabel"
         Me.EffortTypeLabel.Size = New System.Drawing.Size(59, 13)
         Me.EffortTypeLabel.TabIndex = 15
@@ -54,7 +64,7 @@ Partial Class SysAdminManagerReadPanel
         'OriginLabel
         '
         Me.OriginLabel.AutoSize = True
-        Me.OriginLabel.Location = New System.Drawing.Point(12, 19)
+        Me.OriginLabel.Location = New System.Drawing.Point(31, 18)
         Me.OriginLabel.Name = "OriginLabel"
         Me.OriginLabel.Size = New System.Drawing.Size(34, 13)
         Me.OriginLabel.TabIndex = 14
@@ -65,7 +75,7 @@ Partial Class SysAdminManagerReadPanel
         Me.EffortTypeComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
         Me.EffortTypeComboBox.FormattingEnabled = True
         Me.EffortTypeComboBox.Items.AddRange(New Object() {"Quick Request", "Long Request", "Emergency"})
-        Me.EffortTypeComboBox.Location = New System.Drawing.Point(343, 15)
+        Me.EffortTypeComboBox.Location = New System.Drawing.Point(71, 53)
         Me.EffortTypeComboBox.Name = "EffortTypeComboBox"
         Me.EffortTypeComboBox.Size = New System.Drawing.Size(200, 21)
         Me.EffortTypeComboBox.TabIndex = 13
@@ -75,21 +85,121 @@ Partial Class SysAdminManagerReadPanel
         Me.OriginComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
         Me.OriginComboBox.FormattingEnabled = True
         Me.OriginComboBox.Items.AddRange(New Object() {"Project Task", "Emergency Request", "Incident", "Incident - alert", "Incident - outage"})
-        Me.OriginComboBox.Location = New System.Drawing.Point(52, 15)
+        Me.OriginComboBox.Location = New System.Drawing.Point(71, 14)
         Me.OriginComboBox.Name = "OriginComboBox"
         Me.OriginComboBox.Size = New System.Drawing.Size(200, 21)
         Me.OriginComboBox.TabIndex = 12
+        '
+        'NoDateTaskButton
+        '
+        Me.NoDateTaskButton.Location = New System.Drawing.Point(296, 52)
+        Me.NoDateTaskButton.Name = "NoDateTaskButton"
+        Me.NoDateTaskButton.Size = New System.Drawing.Size(75, 23)
+        Me.NoDateTaskButton.TabIndex = 16
+        Me.NoDateTaskButton.Text = "No Date"
+        Me.NoDateTaskButton.UseVisualStyleBackColor = True
+        '
+        'NewTaskButton
+        '
+        Me.NewTaskButton.Location = New System.Drawing.Point(296, 13)
+        Me.NewTaskButton.Name = "NewTaskButton"
+        Me.NewTaskButton.Size = New System.Drawing.Size(75, 23)
+        Me.NewTaskButton.TabIndex = 17
+        Me.NewTaskButton.Text = "New"
+        Me.NewTaskButton.UseVisualStyleBackColor = True
+        '
+        'BacklogTaskButton
+        '
+        Me.BacklogTaskButton.Location = New System.Drawing.Point(377, 13)
+        Me.BacklogTaskButton.Name = "BacklogTaskButton"
+        Me.BacklogTaskButton.Size = New System.Drawing.Size(75, 23)
+        Me.BacklogTaskButton.TabIndex = 18
+        Me.BacklogTaskButton.Text = "Backlog"
+        Me.BacklogTaskButton.UseVisualStyleBackColor = True
+        '
+        'ActiveTaskButton
+        '
+        Me.ActiveTaskButton.Location = New System.Drawing.Point(458, 13)
+        Me.ActiveTaskButton.Name = "ActiveTaskButton"
+        Me.ActiveTaskButton.Size = New System.Drawing.Size(75, 23)
+        Me.ActiveTaskButton.TabIndex = 19
+        Me.ActiveTaskButton.Text = "Active"
+        Me.ActiveTaskButton.UseVisualStyleBackColor = True
+        '
+        'VerifyingTaskButton
+        '
+        Me.VerifyingTaskButton.Location = New System.Drawing.Point(539, 13)
+        Me.VerifyingTaskButton.Name = "VerifyingTaskButton"
+        Me.VerifyingTaskButton.Size = New System.Drawing.Size(75, 23)
+        Me.VerifyingTaskButton.TabIndex = 20
+        Me.VerifyingTaskButton.Text = "Verifying"
+        Me.VerifyingTaskButton.UseVisualStyleBackColor = True
+        '
+        'CompletedTaskButton
+        '
+        Me.CompletedTaskButton.Location = New System.Drawing.Point(620, 13)
+        Me.CompletedTaskButton.Name = "CompletedTaskButton"
+        Me.CompletedTaskButton.Size = New System.Drawing.Size(75, 23)
+        Me.CompletedTaskButton.TabIndex = 21
+        Me.CompletedTaskButton.Text = "Completed"
+        Me.CompletedTaskButton.UseVisualStyleBackColor = True
+        '
+        'TodayTaskButton
+        '
+        Me.TodayTaskButton.Location = New System.Drawing.Point(377, 52)
+        Me.TodayTaskButton.Name = "TodayTaskButton"
+        Me.TodayTaskButton.Size = New System.Drawing.Size(75, 23)
+        Me.TodayTaskButton.TabIndex = 22
+        Me.TodayTaskButton.Text = "Today"
+        Me.TodayTaskButton.UseVisualStyleBackColor = True
+        '
+        'ThisWeekButton
+        '
+        Me.ThisWeekButton.Location = New System.Drawing.Point(458, 52)
+        Me.ThisWeekButton.Name = "ThisWeekButton"
+        Me.ThisWeekButton.Size = New System.Drawing.Size(75, 23)
+        Me.ThisWeekButton.TabIndex = 23
+        Me.ThisWeekButton.Text = "This Week"
+        Me.ThisWeekButton.UseVisualStyleBackColor = True
+        '
+        'NextWeekTaskButton
+        '
+        Me.NextWeekTaskButton.Location = New System.Drawing.Point(539, 52)
+        Me.NextWeekTaskButton.Name = "NextWeekTaskButton"
+        Me.NextWeekTaskButton.Size = New System.Drawing.Size(75, 23)
+        Me.NextWeekTaskButton.TabIndex = 24
+        Me.NextWeekTaskButton.Text = "Next Week"
+        Me.NextWeekTaskButton.UseVisualStyleBackColor = True
+        '
+        'ResetTaskButton
+        '
+        Me.ResetTaskButton.Location = New System.Drawing.Point(620, 52)
+        Me.ResetTaskButton.Name = "ResetTaskButton"
+        Me.ResetTaskButton.Size = New System.Drawing.Size(75, 23)
+        Me.ResetTaskButton.TabIndex = 25
+        Me.ResetTaskButton.Text = "Reset"
+        Me.ResetTaskButton.UseVisualStyleBackColor = True
         '
         'SysAdminManagerReadPanel
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.ResetTaskButton)
+        Me.Controls.Add(Me.NextWeekTaskButton)
+        Me.Controls.Add(Me.ThisWeekButton)
+        Me.Controls.Add(Me.TodayTaskButton)
+        Me.Controls.Add(Me.CompletedTaskButton)
+        Me.Controls.Add(Me.VerifyingTaskButton)
+        Me.Controls.Add(Me.ActiveTaskButton)
+        Me.Controls.Add(Me.BacklogTaskButton)
+        Me.Controls.Add(Me.NewTaskButton)
+        Me.Controls.Add(Me.NoDateTaskButton)
         Me.Controls.Add(Me.EffortTypeLabel)
         Me.Controls.Add(Me.OriginLabel)
         Me.Controls.Add(Me.EffortTypeComboBox)
         Me.Controls.Add(Me.OriginComboBox)
         Me.Name = "SysAdminManagerReadPanel"
-        Me.Size = New System.Drawing.Size(560, 52)
+        Me.Size = New System.Drawing.Size(714, 92)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -99,6 +209,16 @@ Partial Class SysAdminManagerReadPanel
     Friend WithEvents OriginLabel As Windows.Forms.Label
     Friend WithEvents EffortTypeComboBox As Windows.Forms.ComboBox
     Friend WithEvents OriginComboBox As Windows.Forms.ComboBox
+    Friend WithEvents NoDateTaskButton As Windows.Forms.Button
+    Friend WithEvents NewTaskButton As Windows.Forms.Button
+    Friend WithEvents BacklogTaskButton As Windows.Forms.Button
+    Friend WithEvents ActiveTaskButton As Windows.Forms.Button
+    Friend WithEvents VerifyingTaskButton As Windows.Forms.Button
+    Friend WithEvents CompletedTaskButton As Windows.Forms.Button
+    Friend WithEvents TodayTaskButton As Windows.Forms.Button
+    Friend WithEvents ThisWeekButton As Windows.Forms.Button
+    Friend WithEvents NextWeekTaskButton As Windows.Forms.Button
+    Friend WithEvents ResetTaskButton As Windows.Forms.Button
 
     Partial Public Class SysAdminManagerReadPanelFactory
         Implements Microsoft.Office.Tools.Outlook.IFormRegionFactory
