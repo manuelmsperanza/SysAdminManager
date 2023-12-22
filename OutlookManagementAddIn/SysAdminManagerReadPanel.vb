@@ -3,6 +3,8 @@
 Public Class SysAdminManagerReadPanel
     Private NoDeferredDelivery As New Date(4501, 1, 1) ' Magic number Outlook uses for "delay mail box isn't checked"
     Private NoTaskDates As New Date(1899, 12, 30) ' Magic number Outlook uses for "task dates"
+    Private doShowWip As Boolean = False
+
 #Region "Form Region Factory"
 
     <Microsoft.Office.Tools.Outlook.FormRegionMessageClass(Microsoft.Office.Tools.Outlook.FormRegionMessageClassAttribute.Note)>
@@ -25,7 +27,7 @@ Public Class SysAdminManagerReadPanel
     'Use Me.OutlookFormRegion to get a reference to the form region.
     Private Sub SysAdminManagerReadPanel_FormRegionShowing(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.FormRegionShowing
         Dim mailItem As Microsoft.Office.Interop.Outlook.MailItem = TryCast(Me.OutlookItem, Microsoft.Office.Interop.Outlook.MailItem)
-
+        Me.doShowWip = True
         If mailItem.Categories IsNot Nothing Then
 
             For Each curCategory As String In mailItem.Categories.Split(";")
@@ -43,7 +45,7 @@ Public Class SysAdminManagerReadPanel
             Next curCategory
 
         End If
-
+        Me.doShowWip = False
     End Sub
 
     'Occurs when the form region is closed.   
@@ -54,6 +56,9 @@ Public Class SysAdminManagerReadPanel
     End Sub
 
     Private Sub setCategories()
+        If Me.doShowWip Then
+            Exit Sub
+        End If
         Dim mailItem As Microsoft.Office.Interop.Outlook.MailItem = TryCast(Me.OutlookItem, Microsoft.Office.Interop.Outlook.MailItem)
         mailItem.Categories = Me.OriginComboBox.Text & "," & Me.EffortTypeComboBox.Text
 
