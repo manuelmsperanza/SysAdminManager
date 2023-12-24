@@ -1,11 +1,11 @@
 ﻿Public Class SysAdminManagerAddIn
     Private WithEvents inspectors As Outlook.Inspectors
-
+    Private olNs As Outlook.NameSpace
     Private NoDeferredDelivery As New Date(4501, 1, 1) ' Magic number Outlook uses for "delay mail box isn't checked"
 
     Private Sub SysAdminManagerAddIn_Startup() Handles Me.Startup
         Me.inspectors = Me.Application.Inspectors
-        'Me.olNs = Me.Application.GetNamespace("MAPI")
+        Me.olNs = Me.Application.GetNamespace("MAPI")
     End Sub
 
     Private Sub SysAdminManagerAddIn_Shutdown() Handles Me.Shutdown

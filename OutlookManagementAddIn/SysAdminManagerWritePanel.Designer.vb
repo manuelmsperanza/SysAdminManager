@@ -43,6 +43,7 @@ Partial Class SysAdminManagerWritePanel
         Me.EffortTypeComboBox = New System.Windows.Forms.ComboBox()
         Me.OriginComboBox = New System.Windows.Forms.ComboBox()
         Me.DelayerDateTimePicker = New System.Windows.Forms.DateTimePicker()
+        Me.SendImmediatlyButton = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'DelayLabel
@@ -57,7 +58,7 @@ Partial Class SysAdminManagerWritePanel
         'EffortTypeLabel
         '
         Me.EffortTypeLabel.AutoSize = True
-        Me.EffortTypeLabel.Location = New System.Drawing.Point(538, 22)
+        Me.EffortTypeLabel.Location = New System.Drawing.Point(701, 22)
         Me.EffortTypeLabel.Name = "EffortTypeLabel"
         Me.EffortTypeLabel.Size = New System.Drawing.Size(59, 13)
         Me.EffortTypeLabel.TabIndex = 10
@@ -66,7 +67,7 @@ Partial Class SysAdminManagerWritePanel
         'OriginLabel
         '
         Me.OriginLabel.AutoSize = True
-        Me.OriginLabel.Location = New System.Drawing.Point(271, 22)
+        Me.OriginLabel.Location = New System.Drawing.Point(434, 22)
         Me.OriginLabel.Name = "OriginLabel"
         Me.OriginLabel.Size = New System.Drawing.Size(34, 13)
         Me.OriginLabel.TabIndex = 9
@@ -77,7 +78,7 @@ Partial Class SysAdminManagerWritePanel
         Me.EffortTypeComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
         Me.EffortTypeComboBox.FormattingEnabled = True
         Me.EffortTypeComboBox.Items.AddRange(New Object() {"Quick Request", "Long Request", "Emergency"})
-        Me.EffortTypeComboBox.Location = New System.Drawing.Point(602, 18)
+        Me.EffortTypeComboBox.Location = New System.Drawing.Point(765, 18)
         Me.EffortTypeComboBox.Name = "EffortTypeComboBox"
         Me.EffortTypeComboBox.Size = New System.Drawing.Size(200, 21)
         Me.EffortTypeComboBox.TabIndex = 8
@@ -87,7 +88,7 @@ Partial Class SysAdminManagerWritePanel
         Me.OriginComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
         Me.OriginComboBox.FormattingEnabled = True
         Me.OriginComboBox.Items.AddRange(New Object() {"Project Task", "Emergency Request", "Incident", "Incident - alert", "Incident - outage"})
-        Me.OriginComboBox.Location = New System.Drawing.Point(311, 18)
+        Me.OriginComboBox.Location = New System.Drawing.Point(474, 18)
         Me.OriginComboBox.Name = "OriginComboBox"
         Me.OriginComboBox.Size = New System.Drawing.Size(200, 21)
         Me.OriginComboBox.TabIndex = 7
@@ -102,10 +103,21 @@ Partial Class SysAdminManagerWritePanel
         Me.DelayerDateTimePicker.Size = New System.Drawing.Size(200, 20)
         Me.DelayerDateTimePicker.TabIndex = 6
         '
+        'SendImmediatlyButton
+        '
+        Me.SendImmediatlyButton.BackColor = System.Drawing.Color.Yellow
+        Me.SendImmediatlyButton.Location = New System.Drawing.Point(266, 17)
+        Me.SendImmediatlyButton.Name = "SendImmediatlyButton"
+        Me.SendImmediatlyButton.Size = New System.Drawing.Size(107, 23)
+        Me.SendImmediatlyButton.TabIndex = 12
+        Me.SendImmediatlyButton.Text = "Send Immediatly"
+        Me.SendImmediatlyButton.UseVisualStyleBackColor = False
+        '
         'SysAdminManagerWritePanel
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.SendImmediatlyButton)
         Me.Controls.Add(Me.DelayLabel)
         Me.Controls.Add(Me.EffortTypeLabel)
         Me.Controls.Add(Me.OriginLabel)
@@ -113,7 +125,7 @@ Partial Class SysAdminManagerWritePanel
         Me.Controls.Add(Me.OriginComboBox)
         Me.Controls.Add(Me.DelayerDateTimePicker)
         Me.Name = "SysAdminManagerWritePanel"
-        Me.Size = New System.Drawing.Size(820, 54)
+        Me.Size = New System.Drawing.Size(982, 54)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -125,6 +137,7 @@ Partial Class SysAdminManagerWritePanel
     Friend WithEvents EffortTypeComboBox As Windows.Forms.ComboBox
     Friend WithEvents OriginComboBox As Windows.Forms.ComboBox
     Friend WithEvents DelayerDateTimePicker As Windows.Forms.DateTimePicker
+    Friend WithEvents SendImmediatlyButton As Windows.Forms.Button
 
     Partial Public Class SysAdminManagerWritePanelFactory
         Implements Microsoft.Office.Tools.Outlook.IFormRegionFactory

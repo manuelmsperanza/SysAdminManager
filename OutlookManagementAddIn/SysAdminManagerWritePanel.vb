@@ -1,12 +1,14 @@
-﻿Public Class SysAdminManagerWritePanel
+﻿Imports Microsoft.Office.Interop.Outlook
+
+Public Class SysAdminManagerWritePanel
 
     Private NoDeferredDelivery As New Date(4501, 1, 1) ' Magic number Outlook uses for "delay mail box isn't checked"
     Private NoTaskDates As New Date(1899, 12, 30) ' Magic number Outlook uses for "task dates"
 
 #Region "Form Region Factory"
 
-    <Microsoft.Office.Tools.Outlook.FormRegionMessageClass(Microsoft.Office.Tools.Outlook.FormRegionMessageClassAttribute.Note)> _
-    <Microsoft.Office.Tools.Outlook.FormRegionName("OutlookManagementAddIn.SysAdminManagerWritePanel")> _
+    <Microsoft.Office.Tools.Outlook.FormRegionMessageClass(Microsoft.Office.Tools.Outlook.FormRegionMessageClassAttribute.Note)>
+    <Microsoft.Office.Tools.Outlook.FormRegionName("OutlookManagementAddIn.SysAdminManagerWritePanel")>
     Partial Public Class SysAdminManagerWritePanelFactory
 
         ' Occurs before the form region is initialized.
@@ -25,7 +27,6 @@
     'Use Me.OutlookFormRegion to get a reference to the form region.
     Private Sub SysAdminManagerWritePanel_FormRegionShowing(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.FormRegionShowing
         Dim mailItem As Microsoft.Office.Interop.Outlook.MailItem = TryCast(Me.OutlookItem, Microsoft.Office.Interop.Outlook.MailItem)
-
         Dim sendDate As DateTime = Now
         Dim scheduleSendDate As Boolean = False
         If sendDate.Hour >= 18 Then
@@ -38,10 +39,10 @@
 
         Select Case sendDate.DayOfWeek
             Case DayOfWeek.Saturday
-                sendDate = sendDate.AddDays(2)
+                sendDate = sendDate.AddDays(2).AddHours(9 - sendDate.Hour).AddMinutes(sendDate.Minute * -1)
                 scheduleSendDate = True
             Case DayOfWeek.Sunday
-                sendDate = sendDate.AddDays(1)
+                sendDate = sendDate.AddDays(1).AddHours(9 - sendDate.Hour).AddMinutes(sendDate.Minute * -1)
                 scheduleSendDate = True
         End Select
 
@@ -105,4 +106,9 @@
         Me.setCategories()
     End Sub
 
+    Private Sub SendImmediatlyButton_Click(sender As Object, e As EventArgs) Handles SendImmediatlyButton.Click
+        Dim mailItem As Microsoft.Office.Interop.Outlook.MailItem = TryCast(Me.OutlookItem, Microsoft.Office.Interop.Outlook.MailItem)
+        mailItem.DeferredDeliveryTime = NoDeferredDelivery
+        mailItem.Send()
+    End Sub
 End Class
