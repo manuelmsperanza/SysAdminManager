@@ -1,4 +1,5 @@
-﻿Imports Microsoft.Office.Interop.Outlook
+﻿Imports System.Diagnostics
+Imports Microsoft.Office.Interop.Outlook
 
 Public Class SysAdminManagerWritePanel
 
@@ -27,33 +28,7 @@ Public Class SysAdminManagerWritePanel
     'Use Me.OutlookFormRegion to get a reference to the form region.
     Private Sub SysAdminManagerWritePanel_FormRegionShowing(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.FormRegionShowing
         Dim mailItem As Microsoft.Office.Interop.Outlook.MailItem = TryCast(Me.OutlookItem, Microsoft.Office.Interop.Outlook.MailItem)
-        Dim sendDate As DateTime = Now
-        Dim scheduleSendDate As Boolean = False
-        If sendDate.Hour >= 18 Then
-            sendDate = sendDate.AddDays(1).AddHours(9 - sendDate.Hour).AddMinutes(sendDate.Minute * -1)
-            scheduleSendDate = True
-        ElseIf sendDate.Hour < 9 Then
-            sendDate = sendDate.AddHours(9 - sendDate.Hour).AddMinutes(sendDate.Minute * -1)
-            scheduleSendDate = True
-        End If
-
-        Select Case sendDate.DayOfWeek
-            Case DayOfWeek.Saturday
-                sendDate = sendDate.AddDays(2).AddHours(9 - sendDate.Hour).AddMinutes(sendDate.Minute * -1)
-                scheduleSendDate = True
-            Case DayOfWeek.Sunday
-                sendDate = sendDate.AddDays(1).AddHours(9 - sendDate.Hour).AddMinutes(sendDate.Minute * -1)
-                scheduleSendDate = True
-        End Select
-
-        Me.DelayerDateTimePicker.Checked = scheduleSendDate
-        If scheduleSendDate Then
-            Me.DelayerDateTimePicker.Value = sendDate
-            mailItem.DeferredDeliveryTime = sendDate
-        Else
-            mailItem.DeferredDeliveryTime = NoDeferredDelivery
-        End If
-
+        Me.RetrieveFutureAppointments(mailItem)
 
         If mailItem.Categories IsNot Nothing Then
 
@@ -73,6 +48,89 @@ Public Class SysAdminManagerWritePanel
 
         End If
     End Sub
+
+    Private Sub RetrieveFutureAppointments(ByRef mailItem As MailItem)
+        'mailItem.Body = "RetrieveFutureAppointments" & vbNewLine
+        Dim sendDate As DateTime = Now
+        'mailItem.Body += sendDate + vbNewLine
+        Dim scheduleSendDate As Boolean = False
+        If sendDate.Hour >= 18 Then
+            sendDate = sendDate.AddDays(1).AddHours(9 - sendDate.Hour).AddMinutes(sendDate.Minute * -1)
+            'mailItem.Body += "after 18 " & sendDate & vbNewLine
+            scheduleSendDate = True
+        ElseIf sendDate.Hour < 9 Then
+            sendDate = sendDate.AddHours(9 - sendDate.Hour).AddMinutes(sendDate.Minute * -1)
+            'mailItem.Body += "before 9 " & sendDate & vbNewLine
+            scheduleSendDate = True
+        End If
+
+        Select Case sendDate.DayOfWeek
+            Case DayOfWeek.Saturday
+                sendDate = sendDate.AddDays(2).AddHours(9 - sendDate.Hour).AddMinutes(sendDate.Minute * -1)
+                'mailItem.Body += "saturday " & sendDate & vbNewLine
+                scheduleSendDate = True
+            Case DayOfWeek.Sunday
+                sendDate = sendDate.AddDays(1).AddHours(9 - sendDate.Hour).AddMinutes(sendDate.Minute * -1)
+                'mailItem.Body += "sunday " & sendDate & vbNewLine
+                scheduleSendDate = True
+        End Select
+
+        Dim oCalendar As Outlook.Folder = mailItem.GetInspector.Application.GetNamespace("MAPI").GetDefaultFolder(OlDefaultFolders.olFolderCalendar)
+        Dim oItems As Outlook.Items = oCalendar.Items
+
+        ' Filter for appointments ending today or later
+        Dim strFilter As String = "[End] >= '" & Today & "' and [End] < '" & Today.AddYears(1) & "' and [BusyStatus] = 'Out of Office'"
+        oItems = oItems.Restrict(strFilter)
+        oItems.IncludeRecurrences = True
+        ' Sort the appointments
+        oItems.Sort("[Start]")
+
+        ' Loop through filtered items and print details
+        For Each oAppointment As Outlook.AppointmentItem In oItems
+            'mailItem.Body += "oAppointment " & oAppointment.Subject & " from " & oAppointment.Start & " till " & oAppointment.End & vbNewLine
+            If sendDate.CompareTo(oAppointment.Start) >= 0 And sendDate.CompareTo(oAppointment.End) <= 0 Then
+                sendDate = oAppointment.End
+                'mailItem.Body += "ooo " & sendDate & vbNewLine
+                scheduleSendDate = True
+
+                If sendDate.Hour >= 18 Then
+                    sendDate = sendDate.AddDays(1).AddHours(9 - sendDate.Hour).AddMinutes(sendDate.Minute * -1)
+                    'mailItem.Body += "after 18 " & sendDate & vbNewLine
+                    scheduleSendDate = True
+                ElseIf sendDate.Hour < 9 Then
+                    sendDate = sendDate.AddHours(9 - sendDate.Hour).AddMinutes(sendDate.Minute * -1)
+                    'mailItem.Body += "before 9 " & sendDate & vbNewLine
+                    scheduleSendDate = True
+                End If
+
+                Select Case sendDate.DayOfWeek
+                    Case DayOfWeek.Saturday
+                        sendDate = sendDate.AddDays(2).AddHours(9 - sendDate.Hour).AddMinutes(sendDate.Minute * -1)
+                        'mailItem.Body += "saturday " & sendDate & vbNewLine
+                        scheduleSendDate = True
+                    Case DayOfWeek.Sunday
+                        sendDate = sendDate.AddDays(1).AddHours(9 - sendDate.Hour).AddMinutes(sendDate.Minute * -1)
+                        scheduleSendDate = True
+                        'mailItem.Body += "sunday " & sendDate & vbNewLine
+                End Select
+
+            Else
+                Exit For
+            End If
+
+        Next oAppointment
+
+        Me.DelayerDateTimePicker.Checked = scheduleSendDate
+        If scheduleSendDate Then
+            Me.DelayerDateTimePicker.Value = sendDate
+            mailItem.DeferredDeliveryTime = sendDate
+        Else
+            mailItem.DeferredDeliveryTime = NoDeferredDelivery
+        End If
+
+
+    End Sub
+
 
     'Occurs when the form region is closed.   
     'Use Me.OutlookItem to get a reference to the current Outlook item.
