@@ -1,11 +1,10 @@
-﻿Imports System.Diagnostics
-Imports System.IO
-Imports Microsoft.Office.Interop.Outlook
+﻿Imports Microsoft.Office.Interop.Outlook
 
 Public Class SysAdminManagerWritePanel
     'Private logFile As String = "C:\TOS\LOG\OutlookManagementAddIn.log"
     Private NoDeferredDelivery As New Date(4501, 1, 1) ' Magic number Outlook uses for "delay mail box isn't checked"
     Private NoTaskDates As New Date(1899, 12, 30) ' Magic number Outlook uses for "task dates"
+    Private doShowWip As Boolean = False
 
 #Region "Form Region Factory"
 
@@ -29,6 +28,8 @@ Public Class SysAdminManagerWritePanel
     'Use Me.OutlookFormRegion to get a reference to the form region.
     Private Sub SysAdminManagerWritePanel_FormRegionShowing(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.FormRegionShowing
         'System.IO.File.AppendAllText(logFile, Now & vbTab & "SysAdminManagerWritePanel_FormRegionShowing" & vbNewLine)
+
+
         Dim mailItem As Microsoft.Office.Interop.Outlook.MailItem = TryCast(Me.OutlookItem, Microsoft.Office.Interop.Outlook.MailItem)
         'System.IO.File.AppendAllText(logFile, Now & vbTab & "DeferredDeliveryTime " & mailItem.DeferredDeliveryTime & vbNewLine)
 
@@ -51,6 +52,7 @@ Public Class SysAdminManagerWritePanel
             Next curCategory
 
         End If
+        Me.doShowWip = False
     End Sub
 
     Private Sub RetrieveFutureAppointments(ByRef mailItem As MailItem)
@@ -135,7 +137,7 @@ Public Class SysAdminManagerWritePanel
             'System.IO.File.AppendAllText(logFile, Now & vbTab & "DeferredDeliveryTime " & NoDeferredDelivery & vbNewLine)
         End If
 
-        mailItem.Save()
+        'mailItem.Save()
 
     End Sub
 
@@ -160,6 +162,10 @@ Public Class SysAdminManagerWritePanel
 
     Private Sub setCategories()
         'System.IO.File.AppendAllText(logFile, Now & vbTab & "SysAdminManagerWritePanel.setCategories" & vbNewLine)
+        If Me.doShowWip Then
+            'System.IO.File.AppendAllText(logFile, Now & vbTab & "doShowWip" & vbNewLine)
+            Exit Sub
+        End If
         Dim mailItem As Microsoft.Office.Interop.Outlook.MailItem = TryCast(Me.OutlookItem, Microsoft.Office.Interop.Outlook.MailItem)
         mailItem.Categories = Me.OriginComboBox.Text & "," & Me.EffortTypeComboBox.Text
         mailItem.Save()

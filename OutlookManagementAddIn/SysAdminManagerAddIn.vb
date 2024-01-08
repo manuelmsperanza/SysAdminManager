@@ -1,4 +1,6 @@
 ﻿Public Class SysAdminManagerAddIn
+
+    'Private logFile As String = "C:\TOS\LOG\OutlookManagementAddIn.log"
     Private WithEvents inspectors As Outlook.Inspectors
     Private olNs As Outlook.NameSpace
     Private NoDeferredDelivery As New Date(4501, 1, 1) ' Magic number Outlook uses for "delay mail box isn't checked"
@@ -37,4 +39,20 @@
 
     End Sub
 
+    Private Sub Application_NewMail() Handles Application.NewMail
+        'System.IO.File.AppendAllText(logFile, Now & vbTab & "SysAdminManagerAddIn.Application_NewMail" & vbNewLine)
+    End Sub
+
+    Private Sub Application_NewMailEx(EntryIDCollection As String) Handles Application.NewMailEx
+        'System.IO.File.AppendAllText(logFile, Now & vbTab & "SysAdminManagerAddIn.Application_NewMailEx" & vbNewLine)
+    End Sub
+
+    Private Sub Application_ItemLoad(Item As Object) Handles Application.ItemLoad
+        'System.IO.File.AppendAllText(logFile, Now & vbTab & "SysAdminManagerAddIn.Application_ItemLoad" & vbNewLine)
+        Dim mailItem As Outlook.MailItem = TryCast(Item, Outlook.MailItem)
+        If Not (mailItem Is Nothing) Then
+            'System.IO.File.AppendAllText(logFile, Now & vbTab & "DeferredDeliveryTime " & mailItem.DeferredDeliveryTime & vbNewLine)
+        End If
+
+    End Sub
 End Class
